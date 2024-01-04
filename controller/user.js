@@ -5,11 +5,24 @@ export const signUp = async (req, res, next) => {
     const newUser = req.body;
     const savedUser = await UserServices.createUser(newUser);
 
-    res.status(200).json({
+    if (!newUser) {
+      res.status(400).json({
+        success: false,
+        message: "Body cannot be empty",
+      });
+    }
+
+    res.status(204).json({
       success: true,
       data: savedUser,
     });
   } catch (error) {
+    if (error.message === "User already exist") {
+      res.status(400).json({
+        success: false,
+        message: "User already exist",
+      });
+    }
     console.log(error);
     next(new Error(error.message));
   }

@@ -1,3 +1,4 @@
+require("dotenv").config();
 import express from "express";
 import mongoose from "mongoose";
 
@@ -5,7 +6,7 @@ import key from "./keys.js";
 import authRouter from "./router/auth";
 
 const app = express();
-const PORT = 3000 | process.env;
+const PORT = process.env.PORT || 3000;
 
 mongoose
   .connect(key.MONGO_URI, {
